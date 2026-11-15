@@ -1,4 +1,4 @@
-from validacao import validar_produto
+ffrom validacao import validar_produto
 
 
 def test_produto_valido_nao_retorna_erros():

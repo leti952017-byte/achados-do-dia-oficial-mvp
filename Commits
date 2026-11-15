@@ -1,0 +1,1 @@
+git log -5 --date=format:'%d/%m/%Y' --pretty=format:'%h | %s | %ad'

@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, jsonify
+ from flask import Flask, jsonify, render_template
 
 
 def create_app(config: dict | None = None) -> Flask:

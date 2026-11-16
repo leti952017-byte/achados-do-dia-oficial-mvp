@@ -1,27 +1,26 @@
-import os
+from flask import Flask, jsonify, render_template
+from routes.usuarios_routes import usuarios_bp
 
- from flask import Flask, jsonify, render_template
 
-
-def create_app(config: dict | None = None) -> Flask:
+def create_app(config=None):
     app = Flask(__name__)
-
-    secret_key = os.environ.get("SECRET_KEY")
-    if not secret_key and not (config and config.get("SECRET_KEY")):
-        raise RuntimeError("Defina SECRET_KEY no arquivo .env antes de iniciar a aplicação.")
-
-    app.config.update(
-        SECRET_KEY=secret_key,
-        SUPABASE_URL=os.environ.get("SUPABASE_URL", ""),
-        SUPABASE_ANON_KEY=os.environ.get("SUPABASE_ANON_KEY", ""),
-        DEBUG=False,
-    )
+    app.config["DEBUG"] = False
 
     if config:
         app.config.update(config)
 
-    @app.get("/health")
+    app.register_blueprint(usuarios_bp)
+
+    @app.route("/", methods=["GET"])
+    def inicio():
+        return render_template("index.html")
+
+    @app.route("/health", methods=["GET"])
     def health():
-        return jsonify(status="ok")
+        return jsonify(status="ok"), 200
 
     return app
+
+
+if __name__ == "__main__":
+    create_app().run(host="127.0.0.1", port=5000, debug=False)
